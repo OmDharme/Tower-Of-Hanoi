@@ -55,6 +55,7 @@ public class Controller {
         levelButton.setDisable(true);
     }
 
+    // selects the smallest circle that is, the top ring, and makes it glow to show it is selected
     public void selectCircle(MouseEvent event){
         if(currentCircle==null){
             currentCircle = getCircle((Circle) event.getPickResult().getIntersectedNode());
@@ -88,7 +89,8 @@ public class Controller {
 
     }
 
-    public void dropCircleOnBlank(MouseEvent event){
+    // drops circle on both blank as well as a non blank row appropriately
+    public void dropCircle(MouseEvent event){
 
         String row = event.getPickResult().getIntersectedNode().getId();
 
@@ -109,41 +111,43 @@ public class Controller {
                 }
             }
         }else if(row.equals("row2")){
-                    if(currentCircle == null ) return;
-                    else if(row2.getChildren().size()==0) {
-                        row2.getChildren().add(currentCircle);
-                        currentCircle.setEffect(null);
-                        currentCircle = null;
-                    }else{
-                        if(currentCircle.getId().compareTo(getCircle((Circle) row2.getChildren().get(0)).getId())>0){
-                            row2.getChildren().add(currentCircle);
-                            currentCircle.setEffect(null);
-                            currentCircle = null;
-                        }else{
-                            currentCircle.setEffect(null);
-                            currentCircle=null;
-                    }
+            if(currentCircle == null ) return;
+            else if(row2.getChildren().size()==0) {
+                row2.getChildren().add(currentCircle);
+                currentCircle.setEffect(null);
+                currentCircle = null;
+            }else{
+                if(currentCircle.getId().compareTo(getCircle((Circle) row2.getChildren().get(0)).getId())>0){
+                    row2.getChildren().add(currentCircle);
+                    currentCircle.setEffect(null);
+                    currentCircle = null;
+                }else{
+                    currentCircle.setEffect(null);
+                    currentCircle=null;
                 }
-        }else if(row.equals("row3")){
-                    if(currentCircle == null ) return;
-                    else if(row3.getChildren().size()==0) {
-                        row3.getChildren().add(currentCircle);
-                        currentCircle.setEffect(null);
-                        currentCircle = null;
-                    }else{
-                        if(currentCircle.getId().compareTo(getCircle((Circle) row3.getChildren().get(0)).getId())>0){
-                            row3.getChildren().add(currentCircle);
-                            currentCircle.setEffect(null);
-                            currentCircle = null;
-                        }else{
-                            currentCircle.setEffect(null);
-                            currentCircle=null;
-                        }
-                    }
             }
-
+        }else if(row.equals("row3")){
+            if(currentCircle == null ) return;
+            else if(row3.getChildren().size()==0) {
+                row3.getChildren().add(currentCircle);
+                currentCircle.setEffect(null);
+                currentCircle = null;
+            }else{
+                if(currentCircle.getId().compareTo(getCircle((Circle) row3.getChildren().get(0)).getId())>0){
+                    row3.getChildren().add(currentCircle);
+                    currentCircle.setEffect(null);
+                    currentCircle = null;
+                }else{
+                    currentCircle.setEffect(null);
+                    currentCircle=null;
+                }
+            }
         }
 
+    }
+
+    //gets the smallest circle of the row of whichever circle you press
+    //that is you don't want to select a bigger circle when a smaller circle is already present
     public Circle getCircle(Circle circle){
         Circle toChoseCircle = circle;
         StackPane row = (StackPane) circle.getParent();
@@ -153,7 +157,8 @@ public class Controller {
         return toChoseCircle;
     }
 
-    public void newGame(){
+    // restarts the current level
+    public void restart(){
         winStatus.setVisible(false);
         row1.getChildren().removeAll(circle1, circle2, circle3, circle4, circle5);
         row2.getChildren().removeAll(circle1, circle2, circle3, circle4, circle5);
@@ -164,7 +169,7 @@ public class Controller {
 
     public void changeLevel(){
         level++;
-        newGame();
+        restart();
     }
 
 }
